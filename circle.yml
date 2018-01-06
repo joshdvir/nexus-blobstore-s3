@@ -8,6 +8,7 @@ machine:
 
 dependencies:
   override:
+    - sudo apt-get install maven
     - mvn clean install
     - ls -alh
     - ls -alh target/
