@@ -1,0 +1,27 @@
+machine:
+  machine:
+  java:
+    version: openjdk8
+  environment:
+    VERSION: 0.1
+    IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+
+dependencies:
+  override:
+    - mvn clean install
+    - ls -alh
+    - ls -alh target/
+
+test:
+  override:
+    - echo "no tests"
+
+# deployment:
+#   master:
+#     branch: master
+#     commands:
+#       - go version
+#       - go get github.com/mitchellh/gox
+#       - go get github.com/tcnksm/ghr
+#       - CGO_ENABLED=0 gox -output "dist/aws-es-proxy-{{.OS}}-{{.Arch}}"
+#       - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace v$VERSION dist/
