@@ -1,25 +1,23 @@
-machine:
-  machine:
-  java:
-    version: openjdk8
-  environment:
-    VERSION: 0.1
-    IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+version: 2
+jobs:
+  build:
+    working_directory: ~/nexus-blobstore-s3
+    docker:
+      - image: maven:3.5.2
+    steps:
+      - checkout
+      - run: mvn clean install
+      - run: ls -alh
+      - run: ls -alh target/
 
-dependencies:
-  override:
-    - sudo apt-get purge -y maven
-    - if ! [ -e apache-maven-3.3.3-bin.tar.gz ]; then (curl -OL http://mirror.olnevhost.net/pub/apache/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz); fi
-    - sudo tar -zxf apache-maven-3.3.3-bin.tar.gz -C /usr/local/
-    - sudo ln -s /usr/local/apache-maven-3.3.3/bin/mvn /usr/bin/mvn
-    - echo "Maven is on version `mvn -v`"
-    # - mvn clean install
-    # - ls -alh
-    # - ls -alh target/
 
-test:
-  override:
-    - echo "no tests"
+# machine:
+#   machine:
+#   java:
+#     version: openjdk8
+#   environment:
+#     VERSION: 0.1
+#     IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 
 # deployment:
 #   master:
