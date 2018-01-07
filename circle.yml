@@ -11,7 +11,9 @@ jobs:
       - run: mvn clean install
       - run: ls -alh
       - run: ls -alh target/
+      - run: zip -9 -r nexus-blobstore-s3.zip target/
       - run: mkdir -p uploads
+      - run: cp nexus-blobstore-s3.zip uploads/
       - run: cp -r target/nexus-blobstore-s3-1.2.1-SNAPSHOT* uploads/
       - run: ls -alh uploads/
       - run: wget https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_linux_386.zip
