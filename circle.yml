@@ -4,27 +4,17 @@ jobs:
     working_directory: ~/nexus-blobstore-s3
     docker:
       - image: maven:3.5.2
+    environment:
+      - VERSION: "0.1"
     steps:
       - checkout
       - run: mvn clean install
       - run: ls -alh
       - run: ls -alh target/
-
-
-# machine:
-#   machine:
-#   java:
-#     version: openjdk8
-#   environment:
-#     VERSION: 0.1
-#     IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
-
-# deployment:
-#   master:
-#     branch: master
-#     commands:
-#       - go version
-#       - go get github.com/mitchellh/gox
-#       - go get github.com/tcnksm/ghr
-#       - CGO_ENABLED=0 gox -output "dist/aws-es-proxy-{{.OS}}-{{.Arch}}"
-#       - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace v$VERSION dist/
+      - run: mkdir -p uploads
+      - run: cp -r target/nexus-blobstore-s3-1.2.1-SNAPSHOT* uploads/
+      - run: ls -alh uploads/
+      - run: wget https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_linux_386.zip
+      - run: unzip ghr_v0.5.4_linux_386.zip
+      - run: chmod +x ghr
+      - run: ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace v$VERSION uploads/
