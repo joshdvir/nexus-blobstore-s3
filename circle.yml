@@ -11,7 +11,10 @@ dependencies:
     - sudo apt-get purge -y maven
     - curl -OL http://mirror.olnevhost.net/pub/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
     - sudo tar -zxf apache-maven-3.3.9-bin.tar.gz -C /usr/local/
+    - rm -fr /usr/bin/mvn
     - sudo ln -s /usr/local/apache-maven-3.3.9/bin/mvn /usr/bin/mvn
+    - echo "export M2_HOME=/usr/local/apache-maven-3.3.9" >> ~/.profile
+    - . ~/.profile
     - echo "Maven is on version `mvn -v`"
     - mvn clean install
     - ls -alh
