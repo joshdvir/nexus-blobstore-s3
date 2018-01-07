@@ -17,4 +17,4 @@ jobs:
       - run: wget https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_linux_386.zip
       - run: unzip ghr_v0.5.4_linux_386.zip
       - run: chmod +x ghr
-      - run: ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace v$VERSION uploads/
+      - run: ./ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace v$VERSION uploads/
