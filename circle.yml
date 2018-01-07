@@ -8,6 +8,7 @@ jobs:
       - VERSION: "0.1"
     steps:
       - checkout
+      - run: apt install zip
       - run: mvn clean install
       - run: ls -alh
       - run: ls -alh target/
