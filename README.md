@@ -70,12 +70,57 @@ Log in as admin and create a new blobstore, selecting S3 as the type.
 If any fields are left blank, AWS credentials in `~/.aws/credentials`
 will be used.
 
+
+S3 Bucket Policy
+----------------
+The AWS user for accessing the S3 Blobstore bucket needs to be granted 
+permission for these actions:
+
+* s3:PutObject
+* s3:GetObject
+* s3:DeleteObject
+* s3:ListBucket
+* s3:GetLifecycleConfiguration
+* s3:PutLifecycleConfiguration
+
+Sample minimal policy where `<user-arn>` is the ARN of the AWS user and `<s3-bucket-name>` the S3 bucket name:
+
+```
+{
+    "Version": "2012-10-17",
+    "Id": "NexusS3BlobStorePolicy",
+    "Statement": [
+        {
+            "Sid": "NexusS3BlobStoreAccess",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "<user-arn>"
+            },
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:DeleteObject",
+                "s3:ListBucket",
+                "s3:GetLifecycleConfiguration",
+                "s3:PutLifecycleConfiguration"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<s3-bucket-name>",
+                "arn:aws:s3:::<s3-bucket-name>/*"
+            ]
+        }
+    ]
+}
+```
+
+
 Troubleshooting
 ---------------
 
 How can I remove or fix a misbehaving S3 blobstore?  You may need to
 adjust the OrientDB configuration manually to fix it.  Check out this article:
 https://support.sonatype.com/hc/en-us/articles/235816228-Relocating-Blob-Stores
+
 For S3 blobstores use 
 ```
 update repository_blobstore set attributes.s3.bucket='newbucketname' where name='mys3blobstore'
